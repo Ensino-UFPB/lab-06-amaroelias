@@ -62,6 +62,14 @@ const mensagensDeErro = {
     instagram: {
         valueMissing: 'O campo de instagram não pode estar vazio.',
         customError: 'O instagram digitado não é válido.'
+    },
+    nome:{
+        valueMissing:'O campo de nome não pode estar vazio.',
+        customError:'O nome digitado não é válido.'
+    },
+    estoque:{
+        valueMissing:'O campo de estoque não pode estar vazio.',
+        customError:'O estoque digitado não é válido.'
     }
 }
 
@@ -71,8 +79,8 @@ const validadores = {
     cep:input => recuperarCEP(input),
     telefone:input => validarTelefone(input),
     instagram:input => validarInsta(input),
-    nome:input => valida(input),
-    estoque:input => valida(input),
+    nome:input => validarNome(input),
+    estoque:input => validarEstoque(input),
 }
 
 function mostraMensagemDeErro(tipoDeInput, input) {
@@ -237,5 +245,28 @@ function validarInsta(instagram) {
     }
 
     instagram.setCustomValidity(mensagem)
+}
+
+function validarEstoque(estoque) {
+    const estoqueValue = estoque.value
+    let mensagem = ''
+
+    if(estoqueValue < 0) {
+        mensagem = 'O estoque digitado não é válido.'
+    }
+
+    estoque.setCustomValidity(mensagem)
+}
+
+function validarNome(nome){
+    const nome = document.querySelector('[data-tipo="nome"]')
+    const nomeValue = nome.value
+    let mensagem = ''
+
+    if(nomeValue.length < 3 || nomeValue.length > 50) {
+        mensagem = 'O nome digitado não é válido.'
+    }
+
+    nome.setCustomValidity(mensagem)
 }
 
