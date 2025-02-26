@@ -54,13 +54,25 @@ const mensagensDeErro = {
     },
     estado: {
         valueMissing: 'O campo de estado não pode estar vazio.'
+    },
+    telefone: {
+        valueMissing: 'O campo de telefone não pode estar vazio.',
+        customError: 'O telefone digitado não é válido.'
+    },
+    instagram: {
+        valueMissing: 'O campo de instagram não pode estar vazio.',
+        customError: 'O instagram digitado não é válido.'
     }
 }
 
 const validadores = {
     dataNascimento:input => validaDataNascimento(input),
     cpf:input => validaCPF(input),
-    cep:input => recuperarCEP(input)
+    cep:input => recuperarCEP(input),
+    telefone:input => validarTelefone(input),
+    instagram:input => validarInsta(input),
+    nome:input => valida(input),
+    estoque:input => valida(input),
 }
 
 function mostraMensagemDeErro(tipoDeInput, input) {
@@ -195,3 +207,35 @@ function preencheCamposComCEP(data) {
     cidade.value = data.localidade
     estado.value = data.uf
 }
+
+function validarTelefone(telefone) {
+    const telefoneFormatado = telefone.value.replace(/\D/g, '')
+    let mensagem = ''
+
+    if(telefoneFormatado.length != 11 || telefoneFormatado[2] != 9) {
+        mensagem = 'O telefone digitado não é válido.'
+    }
+
+    if (!/^\d{2}9\d{8}$/.test(telefoneFormatado)) {
+        mensagem = 'O telefone digitado não é válido.'
+    }
+
+    telefone.setCustomValidity(mensagem)
+}
+
+
+function validarInsta(instagram) {
+    const instagramValue = instagram.value
+    let mensagem = ''
+
+    if(!instagramValue.startsWith('@')) {
+        mensagem = 'O instagram digitado não é válido.'
+    }
+
+    if(instagramValue.length < 3 || instagramValue.length > 50) {
+        mensagem = 'O instagram digitado não é válido.'
+    }
+
+    instagram.setCustomValidity(mensagem)
+}
+
